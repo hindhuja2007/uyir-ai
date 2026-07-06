@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Uyir AI — Health Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div id="bgcanvas"></div>
+
+<!-- ================= HOME PAGE ================= -->
+<section class="page active" id="page-home">
+  <div class="wrap">
+    <div class="hero">
+      <div class="eyebrow">Uyir · உயிர் · Life</div>
+      <h1>Your health, <span>explained simply.</span></h1>
+      <p>Report analysis, symptom guidance, reminders and emergency alerts — in English or Tamil. Not a diagnosis, just clear information when you need it.</p>
+      <div class="pulse-wrap">
+        <svg class="pulse-line" viewBox="0 0 600 70" preserveAspectRatio="none">
+          <path class="pulse-path" d="M0,35 L90,35 L110,10 L130,60 L150,35 L180,35 L200,20 L220,50 L240,35 L600,35"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="options">
+      <div class="opt-card" onclick="goPage('report')">
+        <svg class="icon" viewBox="0 0 48 48" fill="none"><rect x="10" y="6" width="28" height="36" rx="4" stroke="#e8a33d" stroke-width="2"/><path d="M17 16h14M17 23h14M17 30h9" stroke="#f0c374" stroke-width="2" stroke-linecap="round"/><circle cx="34" cy="34" r="7" fill="#0a1a1e" stroke="#4fa876" stroke-width="2"/><path d="M31 34l2 2 4-4" stroke="#4fa876" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3>Analyze Report</h3>
+        <p>Type lab values, or upload a photo/PDF of your report — Gemini reads it and explains what it means.</p>
+        <span class="go">→</span>
+      </div>
+
+      <div class="opt-card" onclick="goPage('symptom')">
+        <svg class="icon" viewBox="0 0 48 48" fill="none"><path d="M24 40s-14-8.5-14-19a8 8 0 0 1 14-5.3A8 8 0 0 1 38 21c0 10.5-14 19-14 19z" stroke="#e8a33d" stroke-width="2" fill="none"/><path d="M14 22h4l3 6 4-10 3 6h6" stroke="#f0c374" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <h3>Symptom Checker</h3>
+        <p>Speak or type any symptom in English, Tamil, or mixed — get safe home-care advice instantly.</p>
+        <span class="go">→</span>
+      </div>
+
+      <div class="opt-card" onclick="goPage('reminder')">
+        <svg class="icon" viewBox="0 0 48 48" fill="none"><path d="M24 6C24 6 14 20 14 28a10 10 0 0 0 20 0c0-8-10-22-10-22z" stroke="#4fa876" stroke-width="2" fill="none"/><path d="M18 27c0 3 2.5 5.5 6 5.5" stroke="#4fa876" stroke-width="2" stroke-linecap="round"/></svg>
+        <h3> Reminder</h3>
+        <p>Set a repeating reminder to stay hydrated through the day, with a gentle voice nudge.</p>
+        <span class="go">→</span>
+      </div>
+
+      <div class="opt-card" onclick="goPage('emergency')">
+        <svg class="icon" viewBox="0 0 48 48" fill="none"><path d="M24 5l17 8v11c0 11-8 17.5-17 19-9-1.5-17-8-17-19V13l17-8z" stroke="#e8614f" stroke-width="2" fill="none"/><path d="M24 16v10M24 30v.5" stroke="#e8614f" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <h3>Emergency SOS</h3>
+        <p>One tap sends your live location to a trusted contact over WhatsApp.</p>
+        <span class="go">→</span>
+      </div>
+
+      <div class="opt-card" onclick="goPage('stress')">
+        <svg class="icon" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="16" stroke="#4fa876" stroke-width="2"/><path d="M24 16v8l6 4" stroke="#f0c374" stroke-width="2" stroke-linecap="round"/></svg>
+        <h3>Stress Relief Hub</h3>
+        <p>Breathing exercise, balloon-pop game, relaxing music — take a short break.</p>
+        <span class="go">→</span>
+      </div>
+
+      <div class="opt-card" onclick="goPage('chatbot')">
+        <svg class="icon" viewBox="0 0 48 48" fill="none"><path d="M8 12h32a3 3 0 0 1 3 3v16a3 3 0 0 1-3 3H20l-8 7v-7h-4a3 3 0 0 1-3-3V15a3 3 0 0 1 3-3z" stroke="#e8a33d" stroke-width="2" fill="none"/><circle cx="18" cy="22" r="2" fill="#f0c374"/><circle cx="24" cy="22" r="2" fill="#f0c374"/><circle cx="30" cy="22" r="2" fill="#f0c374"/></svg>
+        <h3>AI Chat Bot</h3>
+        <p>Chat with AI in English or Tamil — send photos (like a skin issue), speak or type, get possible cause and solution.</p>
+        <span class="go">→</span>
+      </div>
+
+      <div class="opt-card" onclick="goPage('doctor')">
+        <svg class="icon" viewBox="0 0 48 48" fill="none"><path d="M24 4l16 8v12c0 12-8 18-16 20-8-2-16-8-16-20V12l16-8z" stroke="#4fa876" stroke-width="2" fill="none"/><path d="M24 16v14M17 23h14" stroke="#e8614f" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <h3>Doctor / Hospital Finder</h3>
+        <p>Find nearby hospitals and clinics on Google Maps using your current location.</p>
+        <span class="go">→</span>
+      </div>
+
+      <div class="opt-card" onclick="goPage('medinfo')">
+        <svg class="icon" viewBox="0 0 48 48" fill="none"><rect x="14" y="8" width="20" height="32" rx="4" stroke="#e8a33d" stroke-width="2"/><path d="M20 16h8M20 22h8M20 28h5" stroke="#f0c374" stroke-width="2" stroke-linecap="round"/></svg>
+        <h3>Medicine Info Lookup</h3>
+        <p>Type a medicine name — get usage, common side effects and precautions.</p>
+        <span class="go">→</span>
+      </div>
+    </div>
+
+    <div class="recent" id="recentWrap" style="display:none">
+      <h4>Recent checks</h4>
+      <div id="recentList"></div>
+    </div>
+  </div>
+  <div class="footer-note">⚠️ Educational use only — not a medical diagnosis. For serious symptoms, call local emergency services immediately.</div>
+</section>
+
+<!-- ================= REPORT PAGE ================= -->
+<section class="page" id="page-report">
+  <div class="wrap">
+    <button class="backbtn" onclick="goPage('home')">← Home</button>
+    <div class="pagehead">
+      <svg class="icon" viewBox="0 0 48 48" fill="none"><rect x="10" y="6" width="28" height="36" rx="4" stroke="#e8a33d" stroke-width="2"/><path d="M17 16h14M17 23h14M17 30h9" stroke="#f0c374" stroke-width="2" stroke-linecap="round"/></svg>
+      <div><h2>Analyze Report</h2><p>Type values manually, or upload a photo / PDF of your lab report</p></div>
+    </div>
+
+    <div class="card">
+      <h3>Upload report (photo or PDF)</h3>
+      <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+        📎 Click to choose a file — JPG, PNG or PDF
+      </div>
+      <input type="file" id="fileInput" accept="image/*,application/pdf" style="display:none">
+    </div>
+
+    <div class="card">
+      <h3>Or enter values manually</h3>
+      <div class="row">
+        <div><label>Hemoglobin (g/dL)</label><input id="hemoglobin" type="number" step="0.1" placeholder="e.g., 13.2"></div>
+        <div><label>Fasting Blood Sugar (mg/dL)</label><input id="sugar" type="number" placeholder="e.g., 95"></div>
+      </div>
+      <div class="row">
+        <div><label>Cholesterol (Total, mg/dL)</label><input id="cholesterol" type="number" placeholder="e.g., 170"></div>
+        <div><label>Blood Pressure (Sys/Dia)</label>
+          <div class="row" style="margin-bottom:0">
+            <input id="bpSys" type="number" placeholder="118">
+            <input id="bpDia" type="number" placeholder="76">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div><label>BMI (optional)</label><input id="bmi" type="number" step="0.1" placeholder="e.g., 22.5"></div>
+        <div><label>Notes</label><input id="notes" type="text" placeholder="Any extra info"></div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:6px">
+        <button class="btn primary" id="analyzeBtn">Analyze Report</button>
+        <button class="btn ghost" id="clearBtn">Clear</button>
+        <button class="btn ghost" id="pdfBtn" style="display:none">⬇ Save as PDF</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Result</h3>
+      <div id="reportOutput" class="out">Enter values or upload a report, then click Analyze.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SYMPTOM PAGE ================= -->
+<section class="page" id="page-symptom">
+  <div class="wrap">
+    <button class="backbtn" onclick="goPage('home')">← Home</button>
+    <div class="pagehead">
+      <svg class="icon" viewBox="0 0 48 48" fill="none"><path d="M24 40s-14-8.5-14-19a8 8 0 0 1 14-5.3A8 8 0 0 1 38 21c0 10.5-14 19-14 19z" stroke="#e8a33d" stroke-width="2" fill="none"/></svg>
+      <div><h2>Symptom Checker</h2><p>Speak or type — English, Tamil, or mixed</p></div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <div><label>Voice Language</label>
+          <select id="lang"><option value="en-IN">English (India)</option><option value="ta-IN">தமிழ் (India)</option></select>
+        </div>
+        <div><label>Text-to-Speech</label>
+          <select id="voiceOut"><option value="on">On</option><option value="off">Off</option></select>
+        </div>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin:10px 0">
+        <button class="btn good" id="micBtn">🎙️ Speak Symptom</button>
+        <button class="btn ghost" id="stopMicBtn">⏹️ Stop</button>
+        <button class="btn ghost" id="speakBtn">🔊 Read Output</button>
+      </div>
+      <label>Or type your symptom</label>
+      <div style="display:flex; gap:8px">
+        <input id="symptomText" type="text" placeholder="e.g., fever + cold, or தலைவலி இருக்கு">
+        <button class="btn primary" id="symptomTextBtn">Ask</button>
+      </div>
+      <div class="chip-list" id="quickSymptoms"></div>
+    </div>
+
+    <div class="card">
+      <h3>Advice</h3>
+      <div id="symptomBadge"></div>
+      <div id="symptomOutput" class="out">Speak or type a symptom to see advice here.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= REMINDER PAGE ================= -->
+<section class="page" id="page-reminder">
+  <div class="wrap">
+    <button class="backbtn" onclick="goPage('home')">← Home</button>
+    <div class="pagehead">
+      <svg class="icon" viewBox="0 0 48 48" fill="none"><path d="M24 6C24 6 14 20 14 28a10 10 0 0 0 20 0c0-8-10-22-10-22z" stroke="#4fa876" stroke-width="2" fill="none"/></svg>
+      <div><h2>Water Reminder</h2><p>Stay hydrated with a repeating nudge</p></div>
+    </div>
+    <div class="card">
+      <div class="row">
+        <div><label>Interval (minutes)</label><input id="remMin" type="number" value="60"></div>
+        <div><label>Message</label><input id="remMsg" type="text" value="Time to drink water 💧"></div>
+      </div>
+      <div style="display:flex; gap:10px">
+        <button class="btn good" id="startRem">Start Reminder</button>
+        <button class="btn bad" id="stopRem">Stop Reminder</button>
+      </div>
+      <p class="hint" style="margin-top:12px">Keeps running while this tab stays open. Shows an alert and speaks the message (if enabled).</p>
+    </div>
+
+    <div class="card">
+      <h3>Medicine Reminder</h3>
+      <div class="row">
+        <div><label>Medicine Name</label><input id="medName" type="text" placeholder="e.g., BP Tablet"></div>
+        <div><label>Time (24hr)</label><input id="medTime" type="time"></div>
+      </div>
+      <button class="btn good" id="addMedBtn">➕ Add Medicine Reminder</button>
+      <div id="medList" style="margin-top:14px"></div>
+      <p class="hint" style="margin-top:12px">Tab open ah irundha, set time la alert + voice speak pannum.</p>
+    </div>
+
+    <div class="card">
+      <h3>Appointment Reminder</h3>
+      <div class="row">
+        <div><label>Doctor / Purpose</label><input id="apptName" type="text" placeholder="e.g., Dr. Kumar - checkup"></div>
+        <div><label>Date</label><input id="apptDate" type="date"></div>
+      </div>
+      <div class="row">
+        <div><label>Time (24hr)</label><input id="apptTime" type="time"></div>
+      </div>
+      <button class="btn good" id="addApptBtn">➕ Add Appointment</button>
+      <div id="apptList" style="margin-top:14px"></div>
+      <p class="hint" style="margin-top:12px">Tab open ah irundha, andha date & time la alert + voice speak pannum.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EMERGENCY PAGE ================= -->
+<section class="page" id="page-emergency">
+  <div class="wrap">
+    <button class="backbtn" onclick="goPage('home')">← Home</button>
+    <div class="pagehead">
+      <svg class="icon" viewBox="0 0 48 48" fill="none"><path d="M24 5l17 8v11c0 11-8 17.5-17 19-9-1.5-17-8-17-19V13l17-8z" stroke="#e8614f" stroke-width="2" fill="none"/></svg>
+      <div><h2>Emergency SOS</h2><p>Send your live location instantly over WhatsApp</p></div>
+    </div>
+    <div class="card">
+      <div class="row">
+        <div><label>Emergency WhatsApp Number (with country code)</label><input id="emNum" type="tel" placeholder="e.g., 91XXXXXXXXXX"></div>
+        <div><label>Your Name (optional)</label><input id="emName" type="text" placeholder="e.g., Rahul"></div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <button class="btn bad" id="emBtn">🚨 Send Live Location</button>
+        <button class="btn ghost" id="testEmBtn">🙋 Seek Help (no location)</button>
+      </div>
+      <p class="hint" style="margin-top:12px">Requires location permission and WhatsApp installed on this device.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STRESS RELIEF HUB ================= -->
+<section class="page" id="page-stress">
+  <div class="wrap">
+    <button class="backbtn" onclick="goPage('home')">← Home</button>
+    <div class="pagehead">
+      <svg class="icon" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="16" stroke="#4fa876" stroke-width="2"/></svg>
+      <div><h2>Stress Relief Hub</h2><p>Breathing, games and music to calm down</p></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px">
+        <button class="btn ghost stress-tab active" data-tab="breathing" onclick="showStressTab('breathing')">🌬️ Breathing</button>
+        <button class="btn ghost stress-tab" data-tab="balloon" onclick="showStressTab('balloon')">🎈 Balloon Pop</button>
+        <button class="btn ghost stress-tab" data-tab="music" onclick="showStressTab('music')">🎵 Relaxing Music</button>
+        <button class="btn ghost stress-tab" data-tab="doodle" onclick="showStressTab('doodle')">🎨 Doodle</button>
+        <button class="btn ghost stress-tab" data-tab="memory" onclick="showStressTab('memory')">🧩 Memory</button>
+        <button class="btn ghost stress-tab" data-tab="meditation" onclick="showStressTab('meditation')">🕯️ Meditation</button>
+      </div>
+
+      <div class="stress-panel" id="stress-breathing">
+        <div id="breatheCircle" class="breathe-circle"><span id="breatheText">Press Start</span></div>
+        <div style="text-align:center; margin-top:14px">
+          <button class="btn good" id="breatheStart">Start</button>
+          <button class="btn bad" id="breatheStop">Stop</button>
+        </div>
+      </div>
+
+      <div class="stress-panel" id="stress-balloon" style="display:none">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px">
+          <span class="pill">Score: <b id="balloonScore">0</b></span>
+          <button class="btn ghost" id="balloonReset">Restart</button>
+        </div>
+        <div id="balloonArea" class="balloon-area"></div>
+      </div>
+
+      <div class="stress-panel" id="stress-music" style="display:none">
+        <p class="hint" style="margin-bottom:10px">Pick a track — plays softly in background.</p>
+        <div id="musicList" class="music-list"></div>
+        <audio id="musicPlayer" controls style="width:100%; margin-top:10px"></audio>
+      </div>
+
+      <div class="stress-panel" id="stress-doodle" style="display:none">
+        <canvas id="doodleCanvas" class="doodle-canvas" width="600" height="340"></canvas>
+        <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; align-items:center">
+          <label style="margin:0">Color</label>
+          <input type="color" id="doodleColor" value="#f0c374" style="width:44px; height:36px; padding:2px">
+          <button class="btn ghost" id="doodleClear">Clear</button>
+        </div>
+      </div>
+
+      <div class="stress-panel" id="stress-memory" style="display:none">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px">
+          <span class="pill">Moves: <b id="memoryMoves">0</b></span>
+          <button class="btn ghost" id="memoryReset">Restart</button>
+        </div>
+        <div id="memoryGrid" class="memory-grid"></div>
+      </div>
+
+      <div class="stress-panel" id="stress-meditation" style="display:none">
+        <div style="text-align:center">
+          <div style="display:flex; gap:8px; justify-content:center; margin-bottom:14px">
+            <button class="btn ghost medi-len" data-min="1">1 min</button>
+            <button class="btn ghost medi-len active" data-min="3">3 min</button>
+            <button class="btn ghost medi-len" data-min="5">5 min</button>
+          </div>
+          <div id="meditationTimer" class="meditation-timer">03:00</div>
+          <div style="margin-top:14px">
+            <button class="btn good" id="meditationStart">Start</button>
+            <button class="btn bad" id="meditationStop">Stop</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AI CHAT BOT ================= -->
+<section class="page" id="page-chatbot">
+  <div class="wrap">
+    <button class="backbtn" onclick="goPage('home')">← Home</button>
+    <div class="pagehead">
+      <svg class="icon" viewBox="0 0 48 48" fill="none"><path d="M8 12h32a3 3 0 0 1 3 3v16a3 3 0 0 1-3 3H20l-8 7v-7h-4a3 3 0 0 1-3-3V15a3 3 0 0 1 3-3z" stroke="#e8a33d" stroke-width="2" fill="none"/></svg>
+      <div><h2>AI Chat Bot</h2><p>Chat, upload a photo/file, or speak — English or Tamil</p></div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <div><label>Voice Language</label>
+          <select id="chatLang"><option value="en-IN">English (India)</option><option value="ta-IN">தமிழ் (India)</option></select>
+        </div>
+        <div><label>Text-to-Speech</label>
+          <select id="chatVoiceOut"><option value="on">On</option><option value="off">Off</option></select>
+        </div>
+      </div>
+
+      <div id="chatMessages" class="chat-window">
+        <div class="chat-bubble bot">Hi! Naan unga health AI assistant. Symptom type pannunga, speak pannunga, illa photo upload pannunga (e.g., skin problem photo) — naan explain pandren.</div>
+      </div>
+
+      <div id="chatAttachPreview" class="chat-attach-preview" style="display:none"></div>
+
+      <div class="chat-input-row">
+        <button class="btn ghost" id="chatAttachBtn" title="Attach photo or file">📎</button>
+        <input type="file" id="chatFileInput" accept="image/*,application/pdf" style="display:none">
+        <input id="chatInput" type="text" placeholder="Type your message, or attach a photo...">
+        <button class="btn ghost" id="chatMicBtn" title="Speak">🎙️</button>
+        <button class="btn ghost" id="chatStopMicBtn" title="Stop">⏹️</button>
+        <button class="btn primary" id="chatSendBtn">Send</button>
+      </div>
+      <p class="hint" style="margin-top:10px">⚠️ Educational information only — not a diagnosis. For serious symptoms, see a doctor.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DOCTOR / HOSPITAL FINDER ================= -->
+<section class="page" id="page-doctor">
+  <div class="wrap">
+    <button class="backbtn" onclick="goPage('home')">← Home</button>
+    <div class="pagehead">
+      <svg class="icon" viewBox="0 0 48 48" fill="none"><path d="M24 4l16 8v12c0 12-8 18-16 20-8-2-16-8-16-20V12l16-8z" stroke="#4fa876" stroke-width="2" fill="none"/></svg>
+      <div><h2>Doctor / Hospital Finder</h2><p>Find nearby hospitals and clinics</p></div>
+    </div>
+    <div class="card">
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <button class="btn primary" id="findHospitalBtn">📍 Find Nearby Hospitals</button>
+        <button class="btn ghost" id="findClinicBtn">🩺 Find Nearby Pharmacy</button>
+      </div>
+      <p class="hint" style="margin-top:12px">Requires location permission. Opens results in Google Maps.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MEDICINE INFO LOOKUP ================= -->
+<section class="page" id="page-medinfo">
+  <div class="wrap">
+    <button class="backbtn" onclick="goPage('home')">← Home</button>
+    <div class="pagehead">
+      <svg class="icon" viewBox="0 0 48 48" fill="none"><rect x="14" y="8" width="20" height="32" rx="4" stroke="#e8a33d" stroke-width="2"/></svg>
+      <div><h2>Medicine Info Lookup</h2><p>General usage, side effects and precautions</p></div>
+    </div>
+    <div class="card">
+      <div style="display:flex; gap:8px">
+        <input id="medInfoInput" type="text" placeholder="e.g., Paracetamol, Metformin">
+        <button class="btn primary" id="medInfoBtn">Get Info</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Info</h3>
+      <div id="medInfoOutput" class="out">Type a medicine name and click Get Info.</div>
+    </div>
+  </div>
+</section>
+
+<!-- jsPDF for report export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
