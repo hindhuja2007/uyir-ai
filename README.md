@@ -57,11 +57,6 @@ Many people struggle to understand medical reports, identify symptoms, and acces
 
 Uyir AI provides an intelligent bilingual healthcare platform that analyzes reports, assists users with symptoms, offers medicine information, and delivers personalized AI-powered health support.
 
----
-
-## 📷 Screenshots
-
-(Add your project screenshots here)
 
 ---
 
